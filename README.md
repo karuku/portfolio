@@ -21,7 +21,7 @@ This repository is an executable engineering portfolio—not a collection of scr
 
 | Module | What it demonstrates |
 | --- | --- |
-| [`architectural-patterns`](architectural-patterns/) | A .NET 9 Clean Architecture reference API with CQRS-style handlers, validation, problem details, structured logging, and tests. |
+| [`architectural-patterns`](architectural-patterns/) | A .NET 10 Clean Architecture reference API with CQRS-style handlers, validation, problem details, structured logging, and tests. |
 | [`react-patterns`](react-patterns/) | Framework-agnostic TypeScript patterns for API clients, JWT refresh coordination, polling, and accessible async UI state. |
 | [`ai-backend-bridge`](ai-backend-bridge/) | A provider-agnostic .NET LLM gateway with prompt versioning, structured output, timeouts, and safe input cleansing. |
 
@@ -51,7 +51,6 @@ I have 6+ years of experience delivering business software, including law-firm m
 ## Connect
 
 - [GitHub](https://github.com/karuku)
-- [LinkedIn](https://www.linkedin.com/)
 
 Open to thoughtful conversations about full-stack engineering, platform work, and responsible LLM integrations.
 
@@ -64,7 +63,7 @@ dotnet test architectural-patterns/ArchitecturalPatterns.sln
 dotnet test ai-backend-bridge/AiBackendBridge.sln
 ```
 
-The CI workflow runs the same checks plus formatting and TypeScript compilation.
+GitHub Actions runs the .NET tests and formatting checks, TypeScript compilation, a Docker Compose API smoke test, and scheduled CodeQL analysis for C# and TypeScript.
 
 To exercise the API in a container:
 

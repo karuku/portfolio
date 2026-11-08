@@ -9,17 +9,24 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   dotnet:
     name: .NET reference modules
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.x
+          dotnet-version: 10.x
       - name: Restore
         run: dotnet restore architectural-patterns/ArchitecturalPatterns.sln && dotnet restore ai-backend-bridge/AiBackendBridge.sln
+      - name: Verify formatting
+        run: dotnet format architectural-patterns/ArchitecturalPatterns.sln --verify-no-changes --no-restore && dotnet format ai-backend-bridge/AiBackendBridge.sln --verify-no-changes --no-restore
       - name: Build
         run: dotnet build architectural-patterns/ArchitecturalPatterns.sln --no-restore --configuration Release && dotnet build ai-backend-bridge/AiBackendBridge.sln --no-restore --configuration Release
       - name: Test
@@ -28,6 +35,7 @@ jobs:
   typescript:
     name: TypeScript patterns
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     defaults:
       run:
         working-directory: react-patterns
@@ -41,9 +49,34 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
 
+  container:
+    name: Container smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and verify Compose service
+        run: |
+          set -euo pipefail
+          cleanup() {
+            docker compose logs --no-color || true
+            docker compose down --volumes --remove-orphans
+          }
+          trap cleanup EXIT
+
+          docker compose up --build --detach --wait --wait-timeout 60
+          response="$(curl --fail --silent --show-error \
+            --header 'Content-Type: application/json' \
+            --data '{"title":"CI smoke test"}' \
+            http://localhost:5080/tasks)"
+          printf '%s' "$response" | jq --exit-status '.title == "CI smoke test"'
+          curl --fail --silent --show-error http://localhost:5080/tasks \
+            | jq --exit-status 'any(.[]; .title == "CI smoke test")'
+
   hygiene:
     name: Repository hygiene
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/lychee-action@v2
