@@ -4,6 +4,7 @@
 
 I design and build dependable products across the whole stack: well-factored .NET services, accessible React interfaces, and practical AI integrations that solve real business problems. My work is grounded in clean boundaries, observable systems, and delivery practices that make software easier to change.
 
+[![Portfolio site](https://img.shields.io/badge/portfolio-view%20website-17241f)](https://karuku.github.io/portfolio/)
 [![CI](https://github.com/karuku/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/karuku/portfolio/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
