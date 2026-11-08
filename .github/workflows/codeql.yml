@@ -41,7 +41,7 @@ jobs:
           languages: ${{ matrix.language }}
       - name: Build .NET modules
         if: matrix.language == 'csharp'
-        run: dotnet build architectural-patterns/ArchitecturalPatterns.sln --configuration Release && dotnet build ai-backend-bridge/AiBackendBridge.sln --configuration Release
+        run: dotnet build architectural-patterns/ArchitecturalPatterns.sln --configuration Release && dotnet build ai-backend-bridge/AiBackendBridge.sln --configuration Release && dotnet build 05-realtime-dispatch-systems/DispatchSystems.sln --configuration Release && dotnet build 06-database-optimization/DatabaseOptimization.sln --configuration Release
       - name: Install TypeScript dependencies
         if: matrix.language == 'javascript-typescript'
         working-directory: react-patterns

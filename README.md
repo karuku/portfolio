@@ -24,19 +24,25 @@ This repository is an executable engineering portfolio—not a collection of scr
 | --- | --- |
 | [`architectural-patterns`](architectural-patterns/) | A .NET 10 Clean Architecture reference API with CQRS-style handlers, validation, problem details, structured logging, and tests. |
 | [`react-patterns`](react-patterns/) | Framework-agnostic TypeScript patterns for API clients, JWT refresh coordination, polling, and accessible async UI state. |
-| [`ai-backend-bridge`](ai-backend-bridge/) | A provider-agnostic .NET LLM gateway with prompt versioning, structured output, timeouts, and safe input cleansing. |
+| [`03-mobile-react-native`](03-mobile-react-native/) | An Expo driver companion with SQLite-backed offline updates, connectivity awareness, an idempotent outbox, and tests. |
+| [`ai-backend-bridge`](ai-backend-bridge/) | A provider-neutral .NET LLM gateway with versioned prompts, validated output, and an opt-in HTTP model adapter. |
+| [`05-realtime-dispatch-systems`](05-realtime-dispatch-systems/) | A .NET dispatcher with deterministic nearest-driver matching, concurrency safety, idempotent updates, and SignalR events. |
+| [`06-database-optimization`](06-database-optimization/) | A Dapper/Npgsql query lab demonstrating bounded keyset pagination and an index matched to the read path. |
 
 ## Engineering principles
 
 ```mermaid
 flowchart LR
-    UI[React / TypeScript] --> API[HTTP API]
+    WEB[React / TypeScript] --> API[HTTP APIs]
+    MOBILE[Expo app] --> OUTBOX[SQLite outbox]
+    OUTBOX -->|idempotent updates| DISPATCH[Dispatch API]
     API --> APP[Application use cases]
     APP --> DOMAIN[Domain rules]
     APP --> INFRA[Infrastructure adapters]
-    INFRA --> DB[(Database)]
+    INFRA --> DB[(PostgreSQL query lab)]
+    DISPATCH -->|SignalR events| CLIENTS[Connected clients]
     APP --> AI[LLM gateway]
-    API --> OBS[Logs · metrics · traces]
+    API --> OBS[Logs · health · CI]
 ```
 
 - Dependencies point inward; domain code does not know about frameworks.
@@ -62,17 +68,26 @@ The repository is designed to be approachable without hidden setup. Start with t
 ```powershell
 dotnet test architectural-patterns/ArchitecturalPatterns.sln
 dotnet test ai-backend-bridge/AiBackendBridge.sln
+dotnet test 05-realtime-dispatch-systems/DispatchSystems.sln
+dotnet test 06-database-optimization/DatabaseOptimization.sln
+Push-Location 03-mobile-react-native
+npm ci
+npm run typecheck
+npm test
+Pop-Location
 ```
 
-GitHub Actions runs the .NET tests and formatting checks, TypeScript compilation, a Docker Compose API smoke test, and scheduled CodeQL analysis for C# and TypeScript.
+GitHub Actions runs all .NET tests and formatting checks, TypeScript compilation, mobile unit tests and native bundling, Docker Compose API/database smoke tests, link checks, and scheduled CodeQL analysis for C# and TypeScript.
 
 To exercise the API in a container:
 
 ```powershell
 docker compose up --build
 Invoke-RestMethod http://localhost:5080/health
+Invoke-RestMethod http://localhost:5090/health
+Invoke-RestMethod http://localhost:5091/health
 ```
 
 ## Production notes
 
-The examples are production-shaped reference implementations, not pretend SaaS deployments. Before using one as a product foundation, add an external persistence adapter, authentication/authorization, request rate limits, distributed telemetry, secret management, and environment-specific deployment manifests. The boundaries are deliberately in place so those concerns can be added without rewriting the domain or use cases.
+These are production-shaped reference implementations, not a deployed product. The dispatch and task APIs use in-memory state, the database lab is an isolated PostgreSQL sample, and the mobile app uses demo trip data. Before product use, add identity and authorization, durable assignment and idempotency stores, distributed SignalR scale-out, telemetry, secret management, backup/restore, and environment-specific deployment manifests.

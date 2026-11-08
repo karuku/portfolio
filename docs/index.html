@@ -105,7 +105,7 @@
             <h2 id="work-title">Patterns built to<br /><span>hold up.</span></h2>
           </div>
           <p class="section-intro">
-            Three focused reference modules. Each demonstrates a concrete engineering decision, with code and tests you can inspect.
+            Six focused reference modules. Each demonstrates a concrete engineering decision, with code and tests you can inspect.
           </p>
         </div>
 
@@ -116,6 +116,9 @@
             <button type="button" class="filter-button" data-filter="backend" aria-pressed="false">Backend</button>
             <button type="button" class="filter-button" data-filter="ai" aria-pressed="false">AI systems</button>
             <button type="button" class="filter-button" data-filter="frontend" aria-pressed="false">Frontend</button>
+            <button type="button" class="filter-button" data-filter="mobile" aria-pressed="false">Mobile</button>
+            <button type="button" class="filter-button" data-filter="realtime" aria-pressed="false">Realtime</button>
+            <button type="button" class="filter-button" data-filter="database" aria-pressed="false">Data</button>
           </div>
         </div>
 
@@ -143,15 +146,15 @@
             <div class="project-number"><span>02</span><span>AI / .NET</span></div>
             <div class="project-copy">
               <h3>AI backend bridge</h3>
-              <p>A provider-neutral LLM boundary with versioned prompts, bounded input cleansing, cancellation, and typed output checks.</p>
+              <p>A provider-neutral LLM boundary with versioned prompts, bounded input cleansing, typed output checks, and an opt-in OpenAI Responses adapter.</p>
               <ul class="tag-list" aria-label="Technologies">
-                <li>C#</li><li>Prompt versioning</li><li>Validation</li><li>Provider port</li>
+                <li>C#</li><li>Prompt versioning</li><li>Validation</li><li>OpenAI HTTP</li>
               </ul>
             </div>
             <div class="project-visual ai-visual" aria-label="AI bridge flow: clean input, versioned prompt, model port, validated output">
               <span class="micro-label">SUMMARY.V1</span>
               <div class="ai-flow"><b>INPUT</b><span>01</span><b>PROMPT</b><span>02</span><b>MODEL</b><span>03</span><b>CHECK</b></div>
-              <span class="micro-foot">FAKE PROVIDER / BOUNDARY DEMO</span>
+              <span class="micro-foot">HTTP ADAPTER / FAKE TESTS</span>
             </div>
             <a class="project-open" href="https://github.com/karuku/portfolio/tree/master/ai-backend-bridge" target="_blank" rel="noreferrer" aria-label="Open AI backend bridge source on GitHub" title="Open AI backend bridge source">
               <span aria-hidden="true">&nearr;</span>
@@ -173,6 +176,63 @@
               <span class="micro-foot">SINGLE FLIGHT / CANCELLABLE</span>
             </div>
             <a class="project-open" href="https://github.com/karuku/portfolio/tree/master/react-patterns" target="_blank" rel="noreferrer" aria-label="Open React patterns source on GitHub" title="Open React patterns source">
+              <span aria-hidden="true">&nearr;</span>
+            </a>
+          </article>
+
+          <article class="project-row reveal" data-category="mobile">
+            <div class="project-number"><span>04</span><span>MOBILE / EXPO</span></div>
+            <div class="project-copy">
+              <h3>Field Dispatch Demo</h3>
+              <p>A React Native trip companion with SQLite-backed status updates, connectivity awareness, and an ordered outbox that retries without losing local work.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li>Expo SDK 58</li><li>React Native</li><li>SQLite</li><li>Offline-first</li>
+              </ul>
+            </div>
+            <div class="project-visual frontend-visual" aria-label="Mobile update flow: save locally, detect network, sync with idempotency key">
+              <span class="micro-label">DRIVER UPDATE</span>
+              <div class="micro-flow"><b>LOCAL</b><i aria-hidden="true"></i><b>NETWORK</b><i aria-hidden="true"></i><b>SYNC</b></div>
+              <span class="micro-foot">SQLITE OUTBOX / IDEMPOTENT</span>
+            </div>
+            <a class="project-open" href="https://github.com/karuku/portfolio/tree/master/03-mobile-react-native" target="_blank" rel="noreferrer" aria-label="Open Field Dispatch Demo source on GitHub" title="Open Field Dispatch Demo source">
+              <span aria-hidden="true">&nearr;</span>
+            </a>
+          </article>
+
+          <article class="project-row reveal" data-category="realtime">
+            <div class="project-number"><span>05</span><span>REALTIME / .NET</span></div>
+            <div class="project-copy">
+              <h3>Dispatch matching</h3>
+              <p>A .NET API chooses the nearest available driver deterministically, prevents double assignment under concurrent requests, and broadcasts status events through SignalR.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li>C#</li><li>SignalR</li><li>Idempotency</li><li>Concurrency</li>
+              </ul>
+            </div>
+            <div class="project-visual task-visual" aria-label="Dispatch flow: request, nearest available driver, live event">
+              <span class="micro-label">DISPATCH EVENT</span>
+              <div class="micro-flow"><b>REQUEST</b><i aria-hidden="true"></i><b>MATCH</b><i aria-hidden="true"></i><b>LIVE</b></div>
+              <span class="micro-foot">HUB / SINGLE PROCESS REFERENCE</span>
+            </div>
+            <a class="project-open" href="https://github.com/karuku/portfolio/tree/master/05-realtime-dispatch-systems" target="_blank" rel="noreferrer" aria-label="Open dispatch matching source on GitHub" title="Open dispatch matching source">
+              <span aria-hidden="true">&nearr;</span>
+            </a>
+          </article>
+
+          <article class="project-row reveal" data-category="database">
+            <div class="project-number"><span>06</span><span>DATA / POSTGRES</span></div>
+            <div class="project-copy">
+              <h3>Database query lab</h3>
+              <p>A Dapper/Npgsql read path uses bounded keyset pagination and an index aligned with customer filtering and stable descending order.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li>PostgreSQL</li><li>Dapper</li><li>Keyset paging</li><li>Covering index</li>
+              </ul>
+            </div>
+            <div class="project-visual ai-visual" aria-label="Database flow: customer filter, composite index, bounded page">
+              <span class="micro-label">ORDERS / PAGE 01</span>
+              <div class="micro-flow"><b>CUSTOMER</b><i aria-hidden="true"></i><b>INDEX</b><i aria-hidden="true"></i><b>LIMIT</b></div>
+              <span class="micro-foot">CREATED_AT + ID / KEYSET CURSOR</span>
+            </div>
+            <a class="project-open" href="https://github.com/karuku/portfolio/tree/master/06-database-optimization" target="_blank" rel="noreferrer" aria-label="Open database query lab source on GitHub" title="Open database query lab source">
               <span aria-hidden="true">&nearr;</span>
             </a>
           </article>

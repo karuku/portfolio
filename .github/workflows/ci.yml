@@ -24,13 +24,13 @@ jobs:
         with:
           dotnet-version: 10.x
       - name: Restore
-        run: dotnet restore architectural-patterns/ArchitecturalPatterns.sln && dotnet restore ai-backend-bridge/AiBackendBridge.sln
+        run: dotnet restore architectural-patterns/ArchitecturalPatterns.sln && dotnet restore ai-backend-bridge/AiBackendBridge.sln && dotnet restore 05-realtime-dispatch-systems/DispatchSystems.sln && dotnet restore 06-database-optimization/DatabaseOptimization.sln
       - name: Verify formatting
-        run: dotnet format architectural-patterns/ArchitecturalPatterns.sln --verify-no-changes --no-restore && dotnet format ai-backend-bridge/AiBackendBridge.sln --verify-no-changes --no-restore
+        run: dotnet format architectural-patterns/ArchitecturalPatterns.sln --verify-no-changes --no-restore && dotnet format ai-backend-bridge/AiBackendBridge.sln --verify-no-changes --no-restore && dotnet format 05-realtime-dispatch-systems/DispatchSystems.sln --verify-no-changes --no-restore && dotnet format 06-database-optimization/DatabaseOptimization.sln --verify-no-changes --no-restore
       - name: Build
-        run: dotnet build architectural-patterns/ArchitecturalPatterns.sln --no-restore --configuration Release && dotnet build ai-backend-bridge/AiBackendBridge.sln --no-restore --configuration Release
+        run: dotnet build architectural-patterns/ArchitecturalPatterns.sln --no-restore --configuration Release && dotnet build ai-backend-bridge/AiBackendBridge.sln --no-restore --configuration Release && dotnet build 05-realtime-dispatch-systems/DispatchSystems.sln --no-restore --configuration Release && dotnet build 06-database-optimization/DatabaseOptimization.sln --no-restore --configuration Release
       - name: Test
-        run: dotnet test architectural-patterns/ArchitecturalPatterns.sln --no-build --configuration Release --verbosity normal && dotnet test ai-backend-bridge/AiBackendBridge.sln --no-build --configuration Release --verbosity normal
+        run: dotnet test architectural-patterns/ArchitecturalPatterns.sln --no-build --configuration Release --verbosity normal && dotnet test ai-backend-bridge/AiBackendBridge.sln --no-build --configuration Release --verbosity normal && dotnet test 05-realtime-dispatch-systems/DispatchSystems.sln --no-build --configuration Release --verbosity normal && dotnet test 06-database-optimization/DatabaseOptimization.sln --no-build --configuration Release --verbosity normal
 
   typescript:
     name: TypeScript patterns
@@ -49,13 +49,32 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
 
+  mobile:
+    name: Expo mobile showcase
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: 03-mobile-react-native
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: 03-mobile-react-native/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npx expo export --platform android --platform ios
+
   container:
     name: Container smoke test
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Build and verify Compose service
+      - name: Build and verify Compose services
         run: |
           set -euo pipefail
           cleanup() {
@@ -73,6 +92,48 @@ jobs:
           curl --fail --silent --show-error http://localhost:5080/tasks \
             | jq --exit-status 'any(.[]; .title == "CI smoke test")'
 
+          assignment="$(curl --fail --silent --show-error \
+            --header 'Content-Type: application/json' \
+            --data '{"requestId":"CI-REQUEST-1","pickupLabel":"Central Station","latitude":-1.2922,"longitude":36.822,"maximumDistanceKm":5}' \
+            http://localhost:5090/api/dispatch/requests)"
+          printf '%s' "$assignment" | jq --exit-status '.driverId == "DRIVER-12"'
+
+          update='{"id":"CI-EVENT-1","tripId":"DEMO-0142","status":"accepted","occurredAt":"2026-01-01T10:00:00Z"}'
+          curl --fail --silent --show-error \
+            --header 'Content-Type: application/json' \
+            --header 'Idempotency-Key: CI-EVENT-1' \
+            --data "$update" \
+            http://localhost:5090/api/driver-updates | jq --exit-status '.id == "CI-EVENT-1"'
+          replay_status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
+            --header 'Content-Type: application/json' \
+            --header 'Idempotency-Key: CI-EVENT-1' \
+            --data "$update" \
+            http://localhost:5090/api/driver-updates)"
+          test "$replay_status" = "200"
+
+          curl --fail --silent --show-error --request POST \
+            'http://localhost:5090/hubs/dispatch/negotiate?negotiateVersion=1' \
+            | jq --exit-status '.connectionToken | length > 0'
+
+          orders="$(curl --fail --silent --show-error \
+            'http://localhost:5091/api/orders?customerId=11111111-1111-4111-8111-111111111111&pageSize=5')"
+          printf '%s' "$orders" | jq --exit-status '.items | length == 5'
+          printf '%s' "$orders" | jq --exit-status '.nextCursor != null'
+          cursor_created_at="$(printf '%s' "$orders" | jq -r '.nextCursor.createdAt')"
+          cursor_id="$(printf '%s' "$orders" | jq -r '.nextCursor.id')"
+          next_orders="$(curl --fail --silent --show-error --get \
+            --data-urlencode 'customerId=11111111-1111-4111-8111-111111111111' \
+            --data-urlencode 'pageSize=5' \
+            --data-urlencode "beforeCreatedAt=$cursor_created_at" \
+            --data-urlencode "beforeId=$cursor_id" \
+            http://localhost:5091/api/orders)"
+          printf '%s' "$next_orders" | jq --exit-status '.items | length == 5'
+          first_ids="$(printf '%s' "$orders" | jq -r '.items[].id')"
+          next_ids="$(printf '%s' "$next_orders" | jq -r '.items[].id')"
+          for id in $first_ids; do
+            if grep --fixed-strings --line-regexp --quiet "$id" <<< "$next_ids"; then exit 1; fi
+          done
+
   hygiene:
     name: Repository hygiene
     runs-on: ubuntu-latest
@@ -81,5 +142,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/lychee-action@v2
         with:
-          args: '--no-progress README.md docs/*.md docs/index.html architectural-patterns/README.md ai-backend-bridge/README.md react-patterns/README.md'
+          args: '--no-progress README.md docs/*.md docs/index.html architectural-patterns/README.md ai-backend-bridge/README.md react-patterns/README.md 03-mobile-react-native/README.md 05-realtime-dispatch-systems/README.md 06-database-optimization/README.md'
           fail: true

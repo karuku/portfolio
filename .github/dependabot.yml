@@ -8,8 +8,20 @@ updates:
     directory: "/ai-backend-bridge"
     schedule:
       interval: monthly
+  - package-ecosystem: nuget
+    directory: "/05-realtime-dispatch-systems"
+    schedule:
+      interval: monthly
+  - package-ecosystem: nuget
+    directory: "/06-database-optimization"
+    schedule:
+      interval: monthly
   - package-ecosystem: npm
     directory: "/react-patterns"
+    schedule:
+      interval: monthly
+  - package-ecosystem: npm
+    directory: "/03-mobile-react-native"
     schedule:
       interval: monthly
   - package-ecosystem: github-actions
