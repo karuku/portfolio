@@ -7,11 +7,12 @@ A .NET 10 API demonstrating Dapper with PostgreSQL, bounded parameterized querie
 From the repository root:
 
 ```powershell
+$env:PORTFOLIO_DB_PASSWORD = "local-only-change-this-value"
 docker compose up --build
 Invoke-RestMethod "http://localhost:5091/api/orders?customerId=11111111-1111-4111-8111-111111111111&pageSize=10"
 ```
 
-PostgreSQL is available on host port `5433`; the API is on `5091`. The Compose password default is for local disposable development only. Set `PORTFOLIO_DB_PASSWORD` to a local secret before starting the stack if preferred. The initialization script seeds deterministic demo rows on first database creation.
+PostgreSQL is available on host port `5433`, bound to loopback; the API is on `5091`. Compose requires `PORTFOLIO_DB_PASSWORD` and has no checked-in default. Use a disposable local value here, and use a secret manager for deployed environments. The initialization script seeds deterministic demo rows on first database creation.
 
 ## Query design
 

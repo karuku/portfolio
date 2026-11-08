@@ -82,6 +82,7 @@ GitHub Actions runs all .NET tests and formatting checks, TypeScript compilation
 To exercise the API in a container:
 
 ```powershell
+$env:PORTFOLIO_DB_PASSWORD = "local-only-change-this-value"
 docker compose up --build
 Invoke-RestMethod http://localhost:5080/health
 Invoke-RestMethod http://localhost:5090/health
