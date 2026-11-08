@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: "/architectural-patterns"
+    schedule:
+      interval: monthly
+  - package-ecosystem: nuget
+    directory: "/ai-backend-bridge"
+    schedule:
+      interval: monthly
+  - package-ecosystem: npm
+    directory: "/react-patterns"
+    schedule:
+      interval: monthly
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly

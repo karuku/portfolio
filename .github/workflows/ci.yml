@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  dotnet:
+    name: .NET reference modules
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+      - name: Restore
+        run: dotnet restore architectural-patterns/ArchitecturalPatterns.sln && dotnet restore ai-backend-bridge/AiBackendBridge.sln
+      - name: Build
+        run: dotnet build architectural-patterns/ArchitecturalPatterns.sln --no-restore --configuration Release && dotnet build ai-backend-bridge/AiBackendBridge.sln --no-restore --configuration Release
+      - name: Test
+        run: dotnet test architectural-patterns/ArchitecturalPatterns.sln --no-build --configuration Release --verbosity normal && dotnet test ai-backend-bridge/AiBackendBridge.sln --no-build --configuration Release --verbosity normal
+
+  typescript:
+    name: TypeScript patterns
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: react-patterns
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: react-patterns/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+
+  hygiene:
+    name: Repository hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/lychee-action@v2
+        with:
+          args: '--no-progress README.md docs/*.md architectural-patterns/README.md ai-backend-bridge/README.md react-patterns/README.md'
+          fail: true

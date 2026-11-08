@@ -1,0 +1,28 @@
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Node / TypeScript
+node_modules/
+dist/
+coverage/
+.turbo/
+*.tsbuildinfo
+
+# IDE and OS
+.vs/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.DS_Store
+Thumbs.db
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+implementation_plan.md
