@@ -1,11 +1,11 @@
 version: 2
 updates:
   - package-ecosystem: nuget
-    directory: "/architectural-patterns"
+    directory: "/01-backend-clean-architecture"
     schedule:
       interval: monthly
   - package-ecosystem: nuget
-    directory: "/ai-backend-bridge"
+    directory: "/04-ai-llm-integration"
     schedule:
       interval: monthly
   - package-ecosystem: nuget
@@ -17,7 +17,7 @@ updates:
     schedule:
       interval: monthly
   - package-ecosystem: npm
-    directory: "/react-patterns"
+    directory: "/02-frontend-react-patterns"
     schedule:
       interval: monthly
   - package-ecosystem: npm

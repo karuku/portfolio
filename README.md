@@ -22,10 +22,10 @@ This repository is an executable engineering portfolio—not a collection of scr
 
 | Module | What it demonstrates |
 | --- | --- |
-| [`architectural-patterns`](architectural-patterns/) | A .NET 10 Clean Architecture reference API with CQRS-style handlers, validation, problem details, structured logging, and tests. |
-| [`react-patterns`](react-patterns/) | Framework-agnostic TypeScript patterns for API clients, JWT refresh coordination, polling, and accessible async UI state. |
+| [`01-backend-clean-architecture`](01-backend-clean-architecture/) | A .NET 10 Clean Architecture reference API with CQRS-style handlers, validation, problem details, structured logging, and tests. |
+| [`02-frontend-react-patterns`](02-frontend-react-patterns/) | Framework-agnostic TypeScript patterns for API clients, JWT refresh coordination, polling, and accessible async UI state. |
 | [`03-mobile-react-native`](03-mobile-react-native/) | An Expo driver companion with SQLite-backed offline updates, connectivity awareness, an idempotent outbox, and tests. |
-| [`ai-backend-bridge`](ai-backend-bridge/) | A provider-neutral .NET LLM gateway with versioned prompts, validated output, and an opt-in HTTP model adapter. |
+| [`04-ai-llm-integration`](04-ai-llm-integration/) | A provider-neutral .NET LLM gateway with versioned prompts, validated output, and an opt-in HTTP model adapter. |
 | [`05-realtime-dispatch-systems`](05-realtime-dispatch-systems/) | A .NET dispatcher with deterministic nearest-driver matching, concurrency safety, idempotent updates, and SignalR events. |
 | [`06-database-optimization`](06-database-optimization/) | A Dapper/Npgsql query lab demonstrating bounded keyset pagination and an index matched to the read path. |
 
@@ -66,8 +66,8 @@ Open to thoughtful conversations about full-stack engineering, platform work, an
 The repository is designed to be approachable without hidden setup. Start with the module README that matches what you want to explore. To run the full validation locally:
 
 ```powershell
-dotnet test architectural-patterns/ArchitecturalPatterns.sln
-dotnet test ai-backend-bridge/AiBackendBridge.sln
+dotnet test 01-backend-clean-architecture/ArchitecturalPatterns.sln
+dotnet test 04-ai-llm-integration/AiBackendBridge.sln
 dotnet test 05-realtime-dispatch-systems/DispatchSystems.sln
 dotnet test 06-database-optimization/DatabaseOptimization.sln
 Push-Location 03-mobile-react-native

@@ -1,7 +1,7 @@
 services:
   task-api:
     build:
-      context: ./architectural-patterns
+      context: ./01-backend-clean-architecture
       dockerfile: Dockerfile
     ports:
       - "5080:8080"

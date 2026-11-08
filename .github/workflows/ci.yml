@@ -24,13 +24,13 @@ jobs:
         with:
           dotnet-version: 10.x
       - name: Restore
-        run: dotnet restore architectural-patterns/ArchitecturalPatterns.sln && dotnet restore ai-backend-bridge/AiBackendBridge.sln && dotnet restore 05-realtime-dispatch-systems/DispatchSystems.sln && dotnet restore 06-database-optimization/DatabaseOptimization.sln
+        run: dotnet restore 01-backend-clean-architecture/ArchitecturalPatterns.sln && dotnet restore 04-ai-llm-integration/AiBackendBridge.sln && dotnet restore 05-realtime-dispatch-systems/DispatchSystems.sln && dotnet restore 06-database-optimization/DatabaseOptimization.sln
       - name: Verify formatting
-        run: dotnet format architectural-patterns/ArchitecturalPatterns.sln --verify-no-changes --no-restore && dotnet format ai-backend-bridge/AiBackendBridge.sln --verify-no-changes --no-restore && dotnet format 05-realtime-dispatch-systems/DispatchSystems.sln --verify-no-changes --no-restore && dotnet format 06-database-optimization/DatabaseOptimization.sln --verify-no-changes --no-restore
+        run: dotnet format 01-backend-clean-architecture/ArchitecturalPatterns.sln --verify-no-changes --no-restore && dotnet format 04-ai-llm-integration/AiBackendBridge.sln --verify-no-changes --no-restore && dotnet format 05-realtime-dispatch-systems/DispatchSystems.sln --verify-no-changes --no-restore && dotnet format 06-database-optimization/DatabaseOptimization.sln --verify-no-changes --no-restore
       - name: Build
-        run: dotnet build architectural-patterns/ArchitecturalPatterns.sln --no-restore --configuration Release && dotnet build ai-backend-bridge/AiBackendBridge.sln --no-restore --configuration Release && dotnet build 05-realtime-dispatch-systems/DispatchSystems.sln --no-restore --configuration Release && dotnet build 06-database-optimization/DatabaseOptimization.sln --no-restore --configuration Release
+        run: dotnet build 01-backend-clean-architecture/ArchitecturalPatterns.sln --no-restore --configuration Release && dotnet build 04-ai-llm-integration/AiBackendBridge.sln --no-restore --configuration Release && dotnet build 05-realtime-dispatch-systems/DispatchSystems.sln --no-restore --configuration Release && dotnet build 06-database-optimization/DatabaseOptimization.sln --no-restore --configuration Release
       - name: Test
-        run: dotnet test architectural-patterns/ArchitecturalPatterns.sln --no-build --configuration Release --verbosity normal && dotnet test ai-backend-bridge/AiBackendBridge.sln --no-build --configuration Release --verbosity normal && dotnet test 05-realtime-dispatch-systems/DispatchSystems.sln --no-build --configuration Release --verbosity normal && dotnet test 06-database-optimization/DatabaseOptimization.sln --no-build --configuration Release --verbosity normal
+        run: dotnet test 01-backend-clean-architecture/ArchitecturalPatterns.sln --no-build --configuration Release --verbosity normal && dotnet test 04-ai-llm-integration/AiBackendBridge.sln --no-build --configuration Release --verbosity normal && dotnet test 05-realtime-dispatch-systems/DispatchSystems.sln --no-build --configuration Release --verbosity normal && dotnet test 06-database-optimization/DatabaseOptimization.sln --no-build --configuration Release --verbosity normal
 
   typescript:
     name: TypeScript patterns
@@ -38,14 +38,14 @@ jobs:
     timeout-minutes: 10
     defaults:
       run:
-        working-directory: react-patterns
+        working-directory: 02-frontend-react-patterns
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: react-patterns/package-lock.json
+          cache-dependency-path: 02-frontend-react-patterns/package-lock.json
       - run: npm ci
       - run: npm run typecheck
 
@@ -142,5 +142,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/lychee-action@v2
         with:
-          args: '--no-progress README.md docs/*.md docs/index.html architectural-patterns/README.md ai-backend-bridge/README.md react-patterns/README.md 03-mobile-react-native/README.md 05-realtime-dispatch-systems/README.md 06-database-optimization/README.md'
+          args: '--no-progress README.md docs/*.md docs/index.html 01-backend-clean-architecture/README.md 04-ai-llm-integration/README.md 02-frontend-react-patterns/README.md 03-mobile-react-native/README.md 05-realtime-dispatch-systems/README.md 06-database-optimization/README.md'
           fail: true
