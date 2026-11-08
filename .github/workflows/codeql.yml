@@ -38,7 +38,7 @@ jobs:
           cache-dependency-path: |
             02-frontend-react-patterns/package-lock.json
             03-mobile-react-native/package-lock.json
-      - uses: github/codeql-action/init@v3
+      - uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
       - name: Build .NET modules
@@ -52,4 +52,4 @@ jobs:
         if: matrix.language == 'javascript-typescript'
         working-directory: 03-mobile-react-native
         run: npm ci
-      - uses: github/codeql-action/analyze@v3
+      - uses: github/codeql-action/analyze@v4
