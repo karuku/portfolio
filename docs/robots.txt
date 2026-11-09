@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://karuku.github.io/portfolio/sitemap.xml

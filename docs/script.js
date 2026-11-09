@@ -3,6 +3,7 @@ document.documentElement.classList.add("js");
 const filterButtons = [...document.querySelectorAll("[data-filter]")];
 const projects = [...document.querySelectorAll(".project-row")];
 const filterGroup = document.querySelector(".filter-group");
+const filterStatus = document.querySelector("#project-filter-status");
 
 if (filterGroup && filterButtons.length && projects.length) {
   filterGroup.hidden = false;
@@ -17,6 +18,10 @@ if (filterGroup && filterButtons.length && projects.length) {
     }
     for (const project of projects) {
       project.hidden = filter !== "all" && project.dataset.category !== filter;
+    }
+    if (filterStatus) {
+      const visibleCount = projects.filter((project) => !project.hidden).length;
+      filterStatus.textContent = `Showing ${visibleCount} ${visibleCount === 1 ? "project" : "projects"}.`;
     }
   });
 }

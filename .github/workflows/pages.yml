@@ -20,6 +20,13 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+      - name: Validate Pages assets
+        run: |
+          test -s docs/index.html
+          test -s docs/404.html
+          test -s docs/favicon.svg
+          test -s docs/robots.txt
+          test -s docs/sitemap.xml
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

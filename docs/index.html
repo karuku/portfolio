@@ -4,17 +4,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#17241f" />
+    <meta name="author" content="Robert Karuku" />
     <meta
       name="description"
       content="Robert Karuku is a senior full-stack and LLM engineer building dependable .NET services, thoughtful React interfaces, and practical AI integrations."
     />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://karuku.github.io/portfolio/" />
     <meta property="og:title" content="Robert Karuku | Software Engineer" />
     <meta
       property="og:description"
       content="Full-stack systems, frontend patterns, and responsible AI integrations."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://karuku.github.io/portfolio/" />
+    <meta property="og:site_name" content="Robert Karuku Portfolio" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Robert Karuku | Software Engineer" />
+    <meta
+      name="twitter:description"
+      content="Full-stack systems, frontend patterns, and responsible AI integrations."
+    />
     <title>Robert Karuku | Full-Stack &amp; LLM Engineer</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,6 +35,16 @@
     />
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Robert Karuku",
+        "jobTitle": "Senior Full-Stack and LLM Engineer",
+        "url": "https://karuku.github.io/portfolio/",
+        "sameAs": ["https://github.com/karuku"]
+      }
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -44,7 +66,7 @@
       </nav>
     </header>
 
-    <main id="main">
+    <main id="main" tabindex="-1">
       <section class="hero" id="top" aria-labelledby="hero-title">
         <div class="hero-shape" aria-hidden="true"></div>
         <div class="hero-inner">
@@ -111,7 +133,7 @@
 
         <div class="work-controls">
           <p class="mono-label">FILTER BY DISCIPLINE</p>
-          <div class="filter-group" role="group" aria-label="Filter projects" hidden>
+          <div class="filter-group" role="group" aria-label="Filter projects" aria-controls="project-list" hidden>
             <button type="button" class="filter-button" data-filter="all" aria-pressed="true">All work</button>
             <button type="button" class="filter-button" data-filter="backend" aria-pressed="false">Backend</button>
             <button type="button" class="filter-button" data-filter="ai" aria-pressed="false">AI systems</button>
@@ -120,9 +142,10 @@
             <button type="button" class="filter-button" data-filter="realtime" aria-pressed="false">Realtime</button>
             <button type="button" class="filter-button" data-filter="database" aria-pressed="false">Data</button>
           </div>
+          <p class="visually-hidden" id="project-filter-status" aria-live="polite" aria-atomic="true"></p>
         </div>
 
-        <div class="project-list">
+        <div class="project-list" id="project-list">
           <article class="project-row reveal" data-category="backend">
             <div class="project-number"><span>01</span><span>BACKEND / .NET</span></div>
             <div class="project-copy">
@@ -132,7 +155,7 @@
                 <li>C#</li><li>.NET 10</li><li>Clean Architecture</li><li>xUnit</li>
               </ul>
             </div>
-            <div class="project-visual task-visual" aria-label="Task API flow: request, validation, repository">
+            <div class="project-visual task-visual" role="img" aria-label="Task API flow: request, validation, repository">
               <span class="micro-label">POST /tasks</span>
               <div class="micro-flow"><b>REQUEST</b><i aria-hidden="true"></i><b>VALIDATE</b><i aria-hidden="true"></i><b>STORE</b></div>
               <span class="micro-foot">IN-MEMORY ADAPTER / REFERENCE</span>
@@ -151,7 +174,7 @@
                 <li>C#</li><li>Prompt versioning</li><li>Validation</li><li>OpenAI HTTP</li>
               </ul>
             </div>
-            <div class="project-visual ai-visual" aria-label="AI bridge flow: clean input, versioned prompt, model port, validated output">
+            <div class="project-visual ai-visual" role="img" aria-label="AI bridge flow: clean input, versioned prompt, model port, validated output">
               <span class="micro-label">SUMMARY.V1</span>
               <div class="ai-flow"><b>INPUT</b><span>01</span><b>PROMPT</b><span>02</span><b>MODEL</b><span>03</span><b>CHECK</b></div>
               <span class="micro-foot">HTTP ADAPTER / FAKE TESTS</span>
@@ -170,7 +193,7 @@
                 <li>TypeScript</li><li>Async state</li><li>Cancellation</li><li>API client</li>
               </ul>
             </div>
-            <div class="project-visual frontend-visual" aria-label="API client flow: request, refresh once, retry">
+            <div class="project-visual frontend-visual" role="img" aria-label="API client flow: request, refresh once, retry">
               <span class="micro-label">TOKEN REFRESH</span>
               <div class="micro-flow"><b>REQUEST</b><i aria-hidden="true"></i><b>REFRESH</b><i aria-hidden="true"></i><b>RETRY</b></div>
               <span class="micro-foot">SINGLE FLIGHT / CANCELLABLE</span>
@@ -189,7 +212,7 @@
                 <li>Expo SDK 58</li><li>React Native</li><li>SQLite</li><li>Offline-first</li>
               </ul>
             </div>
-            <div class="project-visual frontend-visual" aria-label="Mobile update flow: save locally, detect network, sync with idempotency key">
+            <div class="project-visual frontend-visual" role="img" aria-label="Mobile update flow: save locally, detect network, sync with idempotency key">
               <span class="micro-label">DRIVER UPDATE</span>
               <div class="micro-flow"><b>LOCAL</b><i aria-hidden="true"></i><b>NETWORK</b><i aria-hidden="true"></i><b>SYNC</b></div>
               <span class="micro-foot">SQLITE OUTBOX / IDEMPOTENT</span>
@@ -208,7 +231,7 @@
                 <li>C#</li><li>SignalR</li><li>Idempotency</li><li>Concurrency</li>
               </ul>
             </div>
-            <div class="project-visual task-visual" aria-label="Dispatch flow: request, nearest available driver, live event">
+            <div class="project-visual task-visual" role="img" aria-label="Dispatch flow: request, nearest available driver, live event">
               <span class="micro-label">DISPATCH EVENT</span>
               <div class="micro-flow"><b>REQUEST</b><i aria-hidden="true"></i><b>MATCH</b><i aria-hidden="true"></i><b>LIVE</b></div>
               <span class="micro-foot">HUB / SINGLE PROCESS REFERENCE</span>
@@ -227,7 +250,7 @@
                 <li>PostgreSQL</li><li>Dapper</li><li>Keyset paging</li><li>Covering index</li>
               </ul>
             </div>
-            <div class="project-visual ai-visual" aria-label="Database flow: customer filter, composite index, bounded page">
+            <div class="project-visual ai-visual" role="img" aria-label="Database flow: customer filter, composite index, bounded page">
               <span class="micro-label">ORDERS / PAGE 01</span>
               <div class="micro-flow"><b>CUSTOMER</b><i aria-hidden="true"></i><b>INDEX</b><i aria-hidden="true"></i><b>LIMIT</b></div>
               <span class="micro-foot">CREATED_AT + ID / KEYSET CURSOR</span>

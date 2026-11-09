@@ -144,5 +144,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/lychee-action@v2
         with:
-          args: '--no-progress README.md docs/*.md docs/index.html 01-backend-clean-architecture/README.md 04-ai-llm-integration/README.md 02-frontend-react-patterns/README.md 03-mobile-react-native/README.md 05-realtime-dispatch-systems/README.md 06-database-optimization/README.md'
+          args: '--no-progress README.md docs/*.md docs/index.html docs/404.html docs/sitemap.xml 01-backend-clean-architecture/README.md 04-ai-llm-integration/README.md 02-frontend-react-patterns/README.md 03-mobile-react-native/README.md 05-realtime-dispatch-systems/README.md 06-database-optimization/README.md'
           fail: true
