@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.x
@@ -40,7 +40,7 @@ jobs:
       run:
         working-directory: 02-frontend-react-patterns
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -57,7 +57,7 @@ jobs:
       run:
         working-directory: 03-mobile-react-native
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -75,7 +75,7 @@ jobs:
     env:
       PORTFOLIO_DB_PASSWORD: ci-only-not-a-secret
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Build and verify Compose services
         run: |
           set -euo pipefail
@@ -141,7 +141,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/lychee-action@v2
         with:
           args: '--no-progress README.md docs/*.md docs/index.html docs/404.html docs/sitemap.xml 01-backend-clean-architecture/README.md 04-ai-llm-integration/README.md 02-frontend-react-patterns/README.md 03-mobile-react-native/README.md 05-realtime-dispatch-systems/README.md 06-database-optimization/README.md'
